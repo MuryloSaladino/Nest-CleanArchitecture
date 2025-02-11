@@ -1,6 +1,7 @@
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
-import EnvironmentConfigService from "./enviroment-config.service";
+import EnvironmentConfigService from "../enviroment/enviroment-config.service";
 import { Module } from "@nestjs/common";
+import { EnvironmentConfigModule } from "../enviroment/enviroment-config.module";
 
 export const getTypeOrmModuleOptions = (config: EnvironmentConfigService): TypeOrmModuleOptions =>
 (
@@ -8,10 +9,7 @@ export const getTypeOrmModuleOptions = (config: EnvironmentConfigService): TypeO
         type: 'postgres',
         url: config.getDatabaseURL(),
         entities: [__dirname + './../../**/*.entity{.ts,.js}'],
-        synchronize: false,
-        ssl: {
-            rejectUnauthorized: false,
-        },
+        synchronize: config.getDatabaseSync(),
     } as TypeOrmModuleOptions
 );
 
@@ -19,7 +17,7 @@ export const getTypeOrmModuleOptions = (config: EnvironmentConfigService): TypeO
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
-            imports: [EnvironmentConfigService],
+            imports: [EnvironmentConfigModule],
             inject: [EnvironmentConfigService],
             useFactory: getTypeOrmModuleOptions,
         }),

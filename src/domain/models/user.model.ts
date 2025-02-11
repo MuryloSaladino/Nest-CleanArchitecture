@@ -1,6 +1,6 @@
-import BaseModel from "./base.model";
+import IBaseModel from "./base.model";
 
-export default interface IUser extends BaseModel {
+export default interface IUser extends IBaseModel {
     username: string;
     email: string;
     password: string;

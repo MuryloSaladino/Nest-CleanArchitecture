@@ -1,6 +1,8 @@
+import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DatabaseConfig } from "src/domain/interfaces/database.interface";
 
+@Injectable()
 export default class EnvironmentConfigService implements DatabaseConfig {
     constructor(
         private readonly configService: ConfigService
@@ -12,6 +14,6 @@ export default class EnvironmentConfigService implements DatabaseConfig {
     }
 
     public getDatabaseSync(): boolean {
-        return this.configService.get<string>("LOCAL_ENV") === "dev";
+        return this.configService.get<string>("NODE_ENV") === "dev";
     }
 }
