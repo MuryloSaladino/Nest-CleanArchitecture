@@ -4,6 +4,8 @@ import validationPipe from './application/pipes/validation.pipe';
 import setupSwagger from './application/swagger';
 import { LoggerService } from './application/services/logger.service';
 import AllExceptionsFilter from './application/filters/exception.filter';
+import ResponseInterceptor from './application/interceptors/response.interceptor';
+import { LoggingInterceptor } from './application/interceptors/logging.interceptor';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -11,6 +13,9 @@ async function bootstrap() {
     app.setGlobalPrefix("/v1/api");
 
     app.useGlobalPipes(validationPipe);
+
+    app.useGlobalInterceptors(new ResponseInterceptor());
+    app.useGlobalInterceptors(new LoggingInterceptor(new LoggerService()));
 
     app.useGlobalFilters(new AllExceptionsFilter(new LoggerService()));
 
