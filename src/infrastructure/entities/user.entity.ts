@@ -9,7 +9,7 @@ export default class User extends BaseEntity implements IUser {
     @Column({ type: "varchar", length: 20 })
     username: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
     @Column({ select: false })
