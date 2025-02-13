@@ -18,4 +18,8 @@ export default class UsersRepository extends BaseRepository<User> implements IUs
             where: { email }
         });
     }
+
+    public async existsByEmail(email: string): Promise<boolean> {
+        return await this.repository.existsBy({ email });
+    }
 }
