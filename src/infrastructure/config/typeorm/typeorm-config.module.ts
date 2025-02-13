@@ -9,7 +9,12 @@ export const getTypeOrmModuleOptions = (config: EnvironmentConfigService): TypeO
         type: 'postgres',
         url: config.getDatabaseURL(),
         entities: [__dirname + './../../**/*.entity{.ts,.js}'],
+        migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+        migrationsRun: !config.getDatabaseSync(),
         synchronize: config.getDatabaseSync(),
+        cli: {
+            migrationsDir: 'src/migrations',
+        },
     } as TypeOrmModuleOptions
 );
 
