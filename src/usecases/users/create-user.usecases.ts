@@ -2,6 +2,7 @@ import { IBcryptService } from "src/domain/adapters/bcrypt.interface";
 import UserModel from "src/domain/models/user.model";
 import { IUsersRepository } from "src/domain/repositories/user.repository";
 import { ILogger } from "src/domain/services/logger.interface";
+import BadRequestError from "src/infrastructure/errors/bad-request.error";
 
 export default class CreateUserUseCases {
     constructor(
@@ -11,6 +12,11 @@ export default class CreateUserUseCases {
     ) {}
 
     async execute(username: string, email: string, password: string) {
+        if(await this.userRepository.existsByEmail(email)) {
+            this.logger.warn("Email already registered", "CreateUserUseCases")
+            throw new BadRequestError("Email already registered");
+        }
+
         const user = new UserModel();
         user.username = username;
         user.email = email;
