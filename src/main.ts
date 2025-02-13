@@ -1,27 +1,33 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import AppModule from './app.module';
-import validationPipe from './application/pipes/validation.pipe';
-import setupSwagger from './application/swagger';
-import { LoggerService } from './application/services/logger.service';
-import AllExceptionsFilter from './application/filters/exception.filter';
-import ResponseInterceptor from './application/interceptors/response.interceptor';
-import { LoggingInterceptor } from './application/interceptors/logging.interceptor';
+import validationPipe from './infrastructure/common/pipes/validation.pipe';
+import LoggerService from './infrastructure/services/logger/logger.service';
+import ResponseInterceptor from './infrastructure/common/interceptors/response.interceptor';
+import { LoggingInterceptor } from './infrastructure/common/interceptors/logging.interceptor';
+import AllExceptionsFilter from './infrastructure/common/filters/exception.filter';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import setupSwagger from './infrastructure/common/swagger/swagger.setup';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const env = process.env.NODE_ENV;
+    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
-    app.setGlobalPrefix("/v1/api");
-
+    // Filters
+    app.useGlobalFilters(new AllExceptionsFilter(new LoggerService()));
+    
+    // Pipes
     app.useGlobalPipes(validationPipe);
 
+    // Interceptors
     app.useGlobalInterceptors(new ResponseInterceptor());
     app.useGlobalInterceptors(new LoggingInterceptor(new LoggerService()));
+    
+    app.setGlobalPrefix("/api");
 
-    app.useGlobalFilters(new AllExceptionsFilter(new LoggerService()));
-
-    setupSwagger(app);
+    if(env !== "prod") {
+        setupSwagger(app);
+    }
 
     await app.listen(process.env.PORT ?? 3000);
 }
-
 bootstrap();
