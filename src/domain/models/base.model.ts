@@ -1,6 +1,6 @@
-export default interface IBaseModel {
+export default class BaseModel {
     id: string;
     createdAt: Date;
     updatedAt: Date;
-    deletedAt: Date;
+    deletedAt: Date | null;
 }
