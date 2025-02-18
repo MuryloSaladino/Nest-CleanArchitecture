@@ -7,13 +7,12 @@ import BadRequestError from "src/infrastructure/errors/bad-request.error";
 export default class CreateUserUseCases {
     constructor(
         private readonly logger: ILogger,
-        private readonly userRepository: IUsersRepository,
+        private readonly usersRepository: IUsersRepository,
         private readonly bcryptService: IBcryptService,
     ) {}
 
     async execute(username: string, email: string, password: string) {
-        if(await this.userRepository.existsByEmail(email)) {
-            this.logger.warn("Email already registered", "CreateUserUseCases")
+        if(await this.usersRepository.existsByEmail(email)) {
             throw new BadRequestError("Email already registered");
         }
 
@@ -22,7 +21,7 @@ export default class CreateUserUseCases {
         user.email = email;
         user.password = await this.bcryptService.hash(password);
         
-        const result = await this.userRepository.create(user);
+        const result = await this.usersRepository.create(user);
         
         this.logger.log(`New user inserted to database { id: ${result.id} }`, "CreateUserUseCases");
     
