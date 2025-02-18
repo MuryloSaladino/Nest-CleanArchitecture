@@ -9,6 +9,8 @@ import RepositoriesModule from "../repositories/repositories.module";
 import BCryptModule from "../services/bcrypt/bcrypt.module";
 import GetUserUseCases from "src/usecases/users/get-user.usecases";
 import GetAllUsersUseCases from "src/usecases/users/get-all-users.usecases";
+import UpdateUserUseCases from "src/usecases/users/update-user.usecases";
+import DeleteUserUseCases from "src/usecases/users/delete-user.usecases";
 
 @Module({
     imports: [
@@ -22,6 +24,8 @@ export default class UseCasesProxyModule {
     static CREATE_USER_PROXY = "createUserProxy";
     static GET_USER_PROXY = "getUserProxy";
     static GET_ALL_USERS_PROXY = "getAllUsersProxy";
+    static UPDATE_USER_PROXY = "updateUserProxy";
+    static DELETE_USER_PROXY = "deleteUserProxy";
 
     
     static register(): DynamicModule {
@@ -53,11 +57,30 @@ export default class UseCasesProxyModule {
                         usersRepository: UsersRepository,
                     ) => new UseCaseProxy(new GetAllUsersUseCases(logger, usersRepository))
                 },
+                {
+                    inject: [LoggerService, UsersRepository, BCryptService],
+                    provide: UseCasesProxyModule.UPDATE_USER_PROXY,
+                    useFactory: (
+                        logger: LoggerService,
+                        usersRepository: UsersRepository,
+                        bcryptService: BCryptService
+                    ) => new UseCaseProxy(new UpdateUserUseCases(logger, usersRepository, bcryptService))
+                },
+                {
+                    inject: [LoggerService, UsersRepository],
+                    provide: UseCasesProxyModule.DELETE_USER_PROXY,
+                    useFactory: (
+                        logger: LoggerService,
+                        usersRepository: UsersRepository,
+                    ) => new UseCaseProxy(new DeleteUserUseCases(logger, usersRepository))
+                },
             ],
             exports: [
                 UseCasesProxyModule.CREATE_USER_PROXY,
                 UseCasesProxyModule.GET_USER_PROXY,
                 UseCasesProxyModule.GET_ALL_USERS_PROXY,
+                UseCasesProxyModule.UPDATE_USER_PROXY,
+                UseCasesProxyModule.DELETE_USER_PROXY,
             ]
         }
     }
