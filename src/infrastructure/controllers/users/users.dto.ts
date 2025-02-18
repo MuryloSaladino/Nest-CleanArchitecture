@@ -1,4 +1,4 @@
-import { IsEmail, IsString, Length, Matches } from "class-validator";
+import { IsEmail, IsOptional, IsString, Length, Matches } from "class-validator";
 
 export class CreateUserDTO {
 
@@ -15,5 +15,26 @@ export class CreateUserDTO {
         message: "Password must contain at least one uppercase letter, " + 
         "one lowercase letter, one number, and one special character",
     })
+    readonly password: string;
+}
+
+export class UpdateUserDTO {
+
+    @IsString()
+    @Length(3, 20)
+    @IsOptional()
+    readonly username: string;
+
+    @IsString()
+    @IsEmail()
+    @IsOptional()
+    readonly email: string;
+
+    @IsString()
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, {
+        message: "Password must contain at least one uppercase letter, " + 
+        "one lowercase letter, one number, and one special character",
+    })
+    @IsOptional()
     readonly password: string;
 }
