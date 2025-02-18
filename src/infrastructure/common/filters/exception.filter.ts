@@ -30,12 +30,17 @@ export default class AllExceptionsFilter implements ExceptionFilter {
             error instanceof HttpError
                 ? error.message
                 : 'Internal server error';
+        const description =
+            error instanceof HttpError
+                ? error.description
+                : undefined;
 
         const responseData = {
             statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
             message,
+            description
         };
 
         this.logMessage(request, message, status, error as Error);
