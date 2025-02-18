@@ -8,6 +8,7 @@ import LoggerModule from "../services/logger/logger.module";
 import RepositoriesModule from "../repositories/repositories.module";
 import BCryptModule from "../services/bcrypt/bcrypt.module";
 import GetUserUseCases from "src/usecases/users/get-user.usecases";
+import GetAllUsersUseCases from "src/usecases/users/get-all-users.usecases";
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ export default class UseCasesProxyModule {
     // Users
     static CREATE_USER_PROXY = "createUserProxy";
     static GET_USER_PROXY = "getUserProxy";
+    static GET_ALL_USERS_PROXY = "getAllUsersProxy";
 
     
     static register(): DynamicModule {
@@ -43,10 +45,19 @@ export default class UseCasesProxyModule {
                         usersRepository: UsersRepository
                     ) => new UseCaseProxy(new GetUserUseCases(logger, usersRepository))
                 },
+                {
+                    inject: [LoggerService, UsersRepository],
+                    provide: UseCasesProxyModule.GET_ALL_USERS_PROXY,
+                    useFactory: (
+                        logger: LoggerService,
+                        usersRepository: UsersRepository,
+                    ) => new UseCaseProxy(new GetAllUsersUseCases(logger, usersRepository))
+                },
             ],
             exports: [
                 UseCasesProxyModule.CREATE_USER_PROXY,
                 UseCasesProxyModule.GET_USER_PROXY,
+                UseCasesProxyModule.GET_ALL_USERS_PROXY,
             ]
         }
     }
