@@ -29,9 +29,9 @@ export default class AllExceptionsFilter implements ExceptionFilter {
             error instanceof HttpError
                 ? error.message
                 : 'Internal server error';
-        const description =
+        const details =
             error instanceof HttpError
-                ? error.description
+                ? error.details
                 : undefined;
 
         const responseData = {
@@ -39,7 +39,7 @@ export default class AllExceptionsFilter implements ExceptionFilter {
             timestamp: new Date().toISOString(),
             path: request.url,
             message,
-            description
+            details
         };
 
         this.logMessage(request, message, status, error as Error);
