@@ -1,6 +1,6 @@
 import { IErrorFormat } from "src/domain/interfaces/errors.interface";
 
-export default class HttpError extends Error implements IErrorFormat {
+export class HttpError extends Error implements IErrorFormat {
     statusCode: number;
     details?: string | string[];
 
