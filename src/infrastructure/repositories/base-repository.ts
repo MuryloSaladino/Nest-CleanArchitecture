@@ -1,9 +1,9 @@
-import IBaseRepository from "src/domain/repositories/base.repository";
-import BaseEntity from "../entities/base.entity";
 import { DeepPartial, FindOptionsWhere, Repository } from "typeorm";
 import { Paginated } from "../../domain/interfaces/pagination.interface";
+import { BaseEntity } from "../entities/base.entity";
+import { IBaseRepository } from "src/domain/repositories/base.repository";
 
-export default abstract class BaseRepository<TEntity extends BaseEntity> implements IBaseRepository<TEntity> {
+export abstract class BaseRepository<TEntity extends BaseEntity> implements IBaseRepository<TEntity> {
     
     protected abstract repository: Repository<TEntity>
 
@@ -43,5 +43,9 @@ export default abstract class BaseRepository<TEntity extends BaseEntity> impleme
         if(!entity) return;
 
         await this.repository.remove(entity);
+    }
+
+    public async exists(id: string): Promise<boolean> {
+        return this.repository.existsBy({ id } as FindOptionsWhere<TEntity>)
     }
 }
