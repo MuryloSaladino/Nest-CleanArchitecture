@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { EnvironmentConfigService } from "src/infrastructure/config/enviroment/enviroment-config.service";
 import { IJwtPayload, IJWTService } from "src/domain/adapters/jwt.interface";
-import EnvironmentConfigService from "src/infrastructure/config/enviroment/enviroment-config.service";
 
 @Injectable()
-export default class JWTService implements IJWTService {
+export class JWTService implements IJWTService {
     secretKey: string;
     expiresIn: string;
     
@@ -18,10 +18,12 @@ export default class JWTService implements IJWTService {
 
     
     extractToken(token: string): Promise<IJwtPayload> {
-        return this.jwtService.verifyAsync(token);
+        return this.jwtService.verifyAsync(token, {
+            secret: this.secretKey
+        });
     }
 
-    createToken(payload: string): string {
+    createToken(payload: IJwtPayload): string {
         return this.jwtService.sign(payload, {
             secret: this.secretKey
         });

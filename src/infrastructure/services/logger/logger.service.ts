@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ILogger } from 'src/domain/services/logger.interface';
 
 @Injectable()
-export default class LoggerService extends Logger implements ILogger {
+export class LoggerService extends Logger implements ILogger {
     
     public debug(message: string, context?: string) {
         if (process.env.NODE_ENV !== 'prod') {
