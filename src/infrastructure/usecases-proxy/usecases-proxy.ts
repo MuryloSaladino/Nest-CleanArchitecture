@@ -1,4 +1,4 @@
-export default class UseCaseProxy<T> {
+export class UseCaseProxy<T> {
     constructor(private readonly useCase: T) {}
 
     getInstance(): T {

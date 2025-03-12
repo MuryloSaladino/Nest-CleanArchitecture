@@ -1,16 +1,16 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import UseCaseProxy from "./usecases-proxy";
-import CreateUserUseCases from "src/usecases/users/create-user.usecases";
-import LoggerService from "../services/logger/logger.service";
-import UsersRepository from "../repositories/users.repository";
-import BCryptService from "../services/bcrypt/bcrypt.service";
-import LoggerModule from "../services/logger/logger.module";
-import RepositoriesModule from "../repositories/repositories.module";
-import BCryptModule from "../services/bcrypt/bcrypt.module";
-import GetUserUseCases from "src/usecases/users/get-user.usecases";
-import GetAllUsersUseCases from "src/usecases/users/get-all-users.usecases";
-import UpdateUserUseCases from "src/usecases/users/update-user.usecases";
-import DeleteUserUseCases from "src/usecases/users/delete-user.usecases";
+import { RepositoriesModule } from "../repositories/repositories.module";
+import { UsersRepository } from "../repositories/users.repository";
+import { UseCaseProxy } from "./usecases-proxy";
+import { LoggerModule } from "../services/logger/logger.module";
+import { BCryptModule } from "../services/bcrypt/bcrypt.module";
+import { LoggerService } from "../services/logger/logger.service";
+import { BCryptService } from "../services/bcrypt/bcrypt.service";
+import { CreateUserUseCases } from "src/usecases/users/create-user.usecases";
+import { GetUserUseCases } from "src/usecases/users/get-user.usecases";
+import { GetAllUsersUseCases } from "src/usecases/users/get-all-users.usecases";
+import { UpdateUserUseCases } from "src/usecases/users/update-user.usecases";
+import { DeleteUserUseCases } from "src/usecases/users/delete-user.usecases";
 
 @Module({
     imports: [
@@ -19,8 +19,8 @@ import DeleteUserUseCases from "src/usecases/users/delete-user.usecases";
         BCryptModule,
     ]
 })
-export default class UseCasesProxyModule {
-    // Users
+export class UsersUseCasesProxyModule {
+
     static CREATE_USER_PROXY = "createUserProxy";
     static GET_USER_PROXY = "getUserProxy";
     static GET_ALL_USERS_PROXY = "getAllUsersProxy";
@@ -30,11 +30,11 @@ export default class UseCasesProxyModule {
     
     static register(): DynamicModule {
         return {
-            module: UseCasesProxyModule,
+            module: UsersUseCasesProxyModule,
             providers: [
                 {
                     inject: [LoggerService, UsersRepository, BCryptService],
-                    provide: UseCasesProxyModule.CREATE_USER_PROXY,
+                    provide: UsersUseCasesProxyModule.CREATE_USER_PROXY,
                     useFactory: (
                         logger: LoggerService,
                         usersRepository: UsersRepository,
@@ -43,7 +43,7 @@ export default class UseCasesProxyModule {
                 },
                 {
                     inject: [LoggerService, UsersRepository],
-                    provide: UseCasesProxyModule.GET_USER_PROXY,
+                    provide: UsersUseCasesProxyModule.GET_USER_PROXY,
                     useFactory: (
                         logger: LoggerService,
                         usersRepository: UsersRepository
@@ -51,7 +51,7 @@ export default class UseCasesProxyModule {
                 },
                 {
                     inject: [LoggerService, UsersRepository],
-                    provide: UseCasesProxyModule.GET_ALL_USERS_PROXY,
+                    provide: UsersUseCasesProxyModule.GET_ALL_USERS_PROXY,
                     useFactory: (
                         logger: LoggerService,
                         usersRepository: UsersRepository,
@@ -59,7 +59,7 @@ export default class UseCasesProxyModule {
                 },
                 {
                     inject: [LoggerService, UsersRepository, BCryptService],
-                    provide: UseCasesProxyModule.UPDATE_USER_PROXY,
+                    provide: UsersUseCasesProxyModule.UPDATE_USER_PROXY,
                     useFactory: (
                         logger: LoggerService,
                         usersRepository: UsersRepository,
@@ -68,7 +68,7 @@ export default class UseCasesProxyModule {
                 },
                 {
                     inject: [LoggerService, UsersRepository],
-                    provide: UseCasesProxyModule.DELETE_USER_PROXY,
+                    provide: UsersUseCasesProxyModule.DELETE_USER_PROXY,
                     useFactory: (
                         logger: LoggerService,
                         usersRepository: UsersRepository,
@@ -76,11 +76,11 @@ export default class UseCasesProxyModule {
                 },
             ],
             exports: [
-                UseCasesProxyModule.CREATE_USER_PROXY,
-                UseCasesProxyModule.GET_USER_PROXY,
-                UseCasesProxyModule.GET_ALL_USERS_PROXY,
-                UseCasesProxyModule.UPDATE_USER_PROXY,
-                UseCasesProxyModule.DELETE_USER_PROXY,
+                UsersUseCasesProxyModule.CREATE_USER_PROXY,
+                UsersUseCasesProxyModule.GET_USER_PROXY,
+                UsersUseCasesProxyModule.GET_ALL_USERS_PROXY,
+                UsersUseCasesProxyModule.UPDATE_USER_PROXY,
+                UsersUseCasesProxyModule.DELETE_USER_PROXY,
             ]
         }
     }
