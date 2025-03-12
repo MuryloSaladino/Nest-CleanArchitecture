@@ -1,27 +1,27 @@
 import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiResponseType } from "src/infrastructure/common/swagger/response.decorator";
-import UseCaseProxy from "src/infrastructure/usecases-proxy/usecases-proxy";
-import UseCasesProxyModule from "src/infrastructure/usecases-proxy/usecases-proxy.module";
-import CreateUserUseCases from "src/usecases/users/create-user.usecases";
-import UserPresenter from "./users.presenter";
 import { CreateUserDTO, UpdateUserDTO } from "./users.dto";
-import GetUserUseCases from "src/usecases/users/get-user.usecases";
-import GetAllUsersUseCases from "src/usecases/users/get-all-users.usecases";
-import UpdateUserUseCases from "src/usecases/users/update-user.usecases";
-import DeleteUserUseCases from "src/usecases/users/delete-user.usecases";
+import { UsersUseCasesProxyModule } from "src/infrastructure/usecases-proxy/users.usecases-proxy.module";
+import { UseCaseProxy } from "src/infrastructure/usecases-proxy/usecases-proxy";
+import { CreateUserUseCases } from "src/usecases/users/create-user.usecases";
+import { GetUserUseCases } from "src/usecases/users/get-user.usecases";
+import { GetAllUsersUseCases } from "src/usecases/users/get-all-users.usecases";
+import { UpdateUserUseCases } from "src/usecases/users/update-user.usecases";
+import { DeleteUserUseCases } from "src/usecases/users/delete-user.usecases";
+import { UserPresenter } from "./users.presenter";
 
 @Controller("/users")
-export default class UsersController {
+export class UsersController {
     constructor(
-        @Inject(UseCasesProxyModule.CREATE_USER_PROXY)
+        @Inject(UsersUseCasesProxyModule.CREATE_USER_PROXY)
         private readonly createUserUseCaseProxy: UseCaseProxy<CreateUserUseCases>,
-        @Inject(UseCasesProxyModule.GET_USER_PROXY)
+        @Inject(UsersUseCasesProxyModule.GET_USER_PROXY)
         private readonly getUserUseCaseProxy: UseCaseProxy<GetUserUseCases>,
-        @Inject(UseCasesProxyModule.GET_ALL_USERS_PROXY)
+        @Inject(UsersUseCasesProxyModule.GET_ALL_USERS_PROXY)
         private readonly getAllUsersUseCaseProxy: UseCaseProxy<GetAllUsersUseCases>,
-        @Inject(UseCasesProxyModule.UPDATE_USER_PROXY)
+        @Inject(UsersUseCasesProxyModule.UPDATE_USER_PROXY)
         private readonly updateUserUseCaseProxy: UseCaseProxy<UpdateUserUseCases>,
-        @Inject(UseCasesProxyModule.DELETE_USER_PROXY)
+        @Inject(UsersUseCasesProxyModule.DELETE_USER_PROXY)
         private readonly deleteUserUseCaseProxy: UseCaseProxy<DeleteUserUseCases>,
     ) {}
 

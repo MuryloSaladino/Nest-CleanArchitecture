@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import UserModel from "src/domain/models/user.model";
+import { UserModel } from "src/domain/models/user.model";
 
-export default class UserPresenter {
+export class UserPresenter {
     @ApiProperty()
     readonly id: string;
     @ApiProperty()
