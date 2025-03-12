@@ -1,4 +1,4 @@
-export default class BaseModel {
+export class BaseModel {
     id: string;
     createdAt: Date;
     updatedAt: Date;
