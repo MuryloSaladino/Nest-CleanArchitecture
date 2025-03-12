@@ -1,7 +1,7 @@
 import { IUsersRepository } from "src/domain/repositories/user.repository";
 import { ILogger } from "src/domain/services/logger.interface";
 
-export default class GetAllUsersUseCases {
+export class GetAllUsersUseCases {
     constructor(
         private readonly logger: ILogger,
         private readonly usersRepository: IUsersRepository,

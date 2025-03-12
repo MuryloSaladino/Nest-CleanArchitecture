@@ -1,8 +1,8 @@
+import { NotFoundError } from "src/infrastructure/errors/not-found.error";
 import { IUsersRepository } from "src/domain/repositories/user.repository";
 import { ILogger } from "src/domain/services/logger.interface";
-import NotFoundError from "src/infrastructure/errors/not-found.error";
 
-export default class GetUserUseCases {
+export class GetUserUseCases {
     constructor(
         private readonly logger: ILogger,
         private readonly usersRepository: IUsersRepository,

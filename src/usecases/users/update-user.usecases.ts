@@ -1,10 +1,10 @@
+import { BadRequestError } from "src/infrastructure/errors/bad-request.error";
+import { NotFoundError } from "src/infrastructure/errors/not-found.error";
 import { IBcryptService } from "src/domain/adapters/bcrypt.interface";
 import { IUsersRepository } from "src/domain/repositories/user.repository";
 import { ILogger } from "src/domain/services/logger.interface";
-import BadRequestError from "src/infrastructure/errors/bad-request.error";
-import NotFoundError from "src/infrastructure/errors/not-found.error";
 
-export default class UpdateUserUseCases {
+export class UpdateUserUseCases {
     constructor(
         private readonly logger: ILogger,
         private readonly usersRepository: IUsersRepository,

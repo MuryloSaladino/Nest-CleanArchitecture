@@ -1,10 +1,10 @@
+import { BadRequestError } from "src/infrastructure/errors/bad-request.error";
 import { IBcryptService } from "src/domain/adapters/bcrypt.interface";
-import UserModel from "src/domain/models/user.model";
+import { UserModel } from "src/domain/models/user.model";
 import { IUsersRepository } from "src/domain/repositories/user.repository";
 import { ILogger } from "src/domain/services/logger.interface";
-import BadRequestError from "src/infrastructure/errors/bad-request.error";
 
-export default class CreateUserUseCases {
+export class CreateUserUseCases {
     constructor(
         private readonly logger: ILogger,
         private readonly usersRepository: IUsersRepository,
