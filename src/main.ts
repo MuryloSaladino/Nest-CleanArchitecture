@@ -1,16 +1,24 @@
 import { NestFactory } from '@nestjs/core';
-import AppModule from './app.module';
-import validationPipe from './infrastructure/common/pipes/validation.pipe';
-import LoggerService from './infrastructure/services/logger/logger.service';
-import ResponseInterceptor from './infrastructure/common/interceptors/response.interceptor';
 import { LoggingInterceptor } from './infrastructure/common/interceptors/logging.interceptor';
-import AllExceptionsFilter from './infrastructure/common/filters/exception.filter';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import setupSwagger from './infrastructure/common/swagger/swagger.setup';
+import { AppModule } from './app.module';
+import { LoggerService } from './infrastructure/services/logger/logger.service';
+import { AllExceptionsFilter } from './infrastructure/common/filters/exception.filter';
+import { validationPipe } from './infrastructure/common/pipes/validation.pipe';
+import { ResponseInterceptor } from './infrastructure/common/interceptors/response.interceptor';
+import { setupSwagger } from './infrastructure/common/swagger/swagger.setup';
 
 async function bootstrap() {
     const env = process.env.NODE_ENV;
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+
+    if (env !== "production") {
+        app.enableCors({
+            origin: "*",
+            methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+            allowedHeaders: ["Content-Type", "Authorization"],
+        });
+    }
 
     // Filters
     app.useGlobalFilters(new AllExceptionsFilter(new LoggerService()));
@@ -28,6 +36,10 @@ async function bootstrap() {
         setupSwagger(app);
     }
 
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(
+        process.env.PORT ?? 3000, 
+        process.env.ADDRESS ?? "localhost", 
+        () => {}
+    );
 }
 bootstrap();
