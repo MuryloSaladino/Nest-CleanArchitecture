@@ -5,13 +5,12 @@ import {
     HttpStatus
 } from "@nestjs/common";
 import { FastifyReply, FastifyRequest } from "fastify";
-import HttpError from "src/infrastructure/errors/http.error";
-import LoggerService from "src/infrastructure/services/logger/logger.service";
-
+import { HttpError } from "src/infrastructure/errors/http.error";
+import { LoggerService } from "src/infrastructure/services/logger/logger.service";
 
 
 @Catch()
-export default class AllExceptionsFilter implements ExceptionFilter {
+export class AllExceptionsFilter implements ExceptionFilter {
     constructor(
         private readonly logger: LoggerService,
     ) { }
