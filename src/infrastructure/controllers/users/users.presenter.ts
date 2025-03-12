@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { UserModel } from "src/domain/models/user.model";
+import { PlayEntity } from "src/infrastructure/entities/play.entity";
+import { UserEntity } from "src/infrastructure/entities/user.entity";
 
 export class UserPresenter {
     @ApiProperty()
@@ -14,13 +15,16 @@ export class UserPresenter {
     readonly username: string;
     @ApiProperty()
     readonly email: string;
+    @ApiProperty()
+    readonly plays?: PlayEntity[];
 
-    constructor(user: UserModel) {
+    constructor(user: UserEntity) {
         this.id = user.id;
         this.createdAt = user.createdAt;
         this.updatedAt = user.updatedAt;
         this.deletedAt = user.deletedAt;
         this.username = user.username;
         this.email = user.email;
+        this.plays = user.plays;
     }
 }
