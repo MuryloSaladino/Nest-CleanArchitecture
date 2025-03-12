@@ -1,5 +1,5 @@
-import UserModel from "../models/user.model";
-import IBaseRepository from "./base.repository";
+import { UserModel } from "../models/user.model";
+import { IBaseRepository } from "./base.repository";
 
 export interface IUsersRepository extends IBaseRepository<UserModel> {
     existsByEmail(email: string): Promise<boolean>;

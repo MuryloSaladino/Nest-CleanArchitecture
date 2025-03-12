@@ -1,10 +1,10 @@
 import { Paginated } from "src/domain/interfaces/pagination.interface";
-import BaseModel from "../models/base.model";
 
-export default interface IBaseRepository<T extends BaseModel> {
+export interface IBaseRepository<T> {
     create(entity: Partial<T>): Promise<T>;
     findById(id: string): Promise<T | null>;
     findAll(page?: number, size?: number): Promise<Paginated<T>>;
+    exists(id: string): Promise<boolean>;
     update(id: string, payload: Partial<T>): Promise<T | null>;
     delete(id: string): Promise<void>;
 }
