@@ -16,7 +16,7 @@ export class ResponseFormat<T> {
 }
 
 @Injectable()
-export default class ResponseInterceptor<T> implements NestInterceptor<T, ResponseFormat<T>> {
+export class ResponseInterceptor<T> implements NestInterceptor<T, ResponseFormat<T>> {
     intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseFormat<T>> {
         const now = Date.now();
         const httpContext = context.switchToHttp();

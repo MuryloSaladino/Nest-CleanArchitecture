@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { FastifyRequest } from "fastify";
 import { Observable, tap } from "rxjs";
-import LoggerService from "src/infrastructure/services/logger/logger.service";
+import { LoggerService } from "src/infrastructure/services/logger/logger.service";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
