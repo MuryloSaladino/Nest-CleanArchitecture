@@ -1,9 +1,10 @@
-import UserModel from "src/domain/models/user.model";
-import BaseEntity from "src/infrastructure/entities/base.entity";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import { BaseEntity } from "./base.entity";
+import { UserModel } from "src/domain/models/user.model";
+import { PlayEntity } from "./play.entity";
 
 @Entity("users")
-export default class User extends BaseEntity implements UserModel {
+export class UserEntity extends BaseEntity implements UserModel {
 
     @Column({ type: "varchar", length: 20 })
     username: string;
@@ -13,4 +14,7 @@ export default class User extends BaseEntity implements UserModel {
 
     @Column({ select: false })
     password: string;
+
+    @OneToMany(() => PlayEntity, (p) => p.user)
+    plays: PlayEntity[];
 }
