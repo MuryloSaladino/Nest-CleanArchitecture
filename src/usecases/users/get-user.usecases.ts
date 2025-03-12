@@ -9,7 +9,7 @@ export class GetUserUseCases {
     ) {}
 
     async execute(id: string) {
-        const user = await this.usersRepository.findById(id);
+        const user = await this.usersRepository.findWithGames(id);
 
         if(!user) {
             this.logger.warn("User not found", "GetUserUseCases");
