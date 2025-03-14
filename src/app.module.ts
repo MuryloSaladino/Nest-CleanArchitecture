@@ -6,10 +6,12 @@ import { LoggerModule } from './infrastructure/services/logger/logger.module';
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 import { BCryptModule } from './infrastructure/services/bcrypt/bcrypt.module';
 import { JWTModule as JWTServiceModule } from './infrastructure/services/jwt/jwt.module';
+import { AuthUseCasesProxyModule } from './infrastructure/usecases-proxy/auth.usecases-proxy.module';
 
 @Module({
     imports: [
         UsersUseCasesProxyModule.register(),
+        AuthUseCasesProxyModule.register(),
 
         EnvironmentConfigModule,
         
