@@ -1,8 +1,9 @@
 import { PlayModel } from "src/domain/models/play.model";
-import { JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { GameEntity } from "./game.entity";
 
+@Entity("plays")
 export class PlayEntity implements PlayModel {
     
     @PrimaryColumn()
