@@ -1,6 +1,7 @@
+import { BaseModel } from "src/domain/models/base.model";
 import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export abstract class BaseEntity {
+export abstract class BaseEntity implements BaseModel {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
@@ -12,5 +13,5 @@ export abstract class BaseEntity {
     updatedAt: Date;
 
     @DeleteDateColumn({ nullable: true, select: false })
-    deletedAt: Date;
+    deletedAt: Date | null;
 }
