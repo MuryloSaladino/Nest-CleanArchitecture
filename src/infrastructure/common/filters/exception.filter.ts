@@ -2,6 +2,7 @@ import {
     ArgumentsHost,
     Catch,
     ExceptionFilter,
+    HttpException,
     HttpStatus
 } from "@nestjs/common";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -21,11 +22,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const request: any = ctx.getRequest<FastifyRequest>();
 
         const status =
-            error instanceof HttpError
-                ? error.statusCode
+            error instanceof HttpException
+                ? error.getStatus()
                 : HttpStatus.INTERNAL_SERVER_ERROR;
         const message =
-            error instanceof HttpError
+            error instanceof HttpException
                 ? error.message
                 : 'Internal server error';
         const details =

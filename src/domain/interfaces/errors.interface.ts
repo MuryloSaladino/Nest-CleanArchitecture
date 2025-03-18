@@ -1,4 +1,4 @@
 export interface IErrorFormat {
     message: string;
-    statusCode: number;
+    getStatus(): number;
 }
