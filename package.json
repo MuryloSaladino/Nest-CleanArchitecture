@@ -1,0 +1,27 @@
+{
+  "name": "typescript-cleanarchitecture",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "ts-node-dev --respawn src/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuryloSaladino/Nest-CleanArchitecture.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MuryloSaladino/Nest-CleanArchitecture/issues"
+  },
+  "homepage": "https://github.com/MuryloSaladino/Nest-CleanArchitecture#readme",
+  "description": "",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
